@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -85,11 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ? TextButton(
       style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
       onPressed: () { _pauseTimer(); },
-      child: const Text('Pause'), )
+      child: const Text('Pause', style: TextStyle(fontSize: 20, color: Colors.pink),))
       : TextButton(
       style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
       onPressed: () {_startTimer();},
-      child: const Text('Start'),);
+      child: const Text('Start', style: TextStyle(fontSize: 20, color: Colors.pink),));
   }
 
 
@@ -98,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       '$_counter',
       style: const TextStyle(
         fontSize: 80,
-        color: Colors.white,),
+        color: Colors.black,),
     );
   }
 
@@ -110,6 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         CircularProgressIndicator(
           value: _counter/_maxSeconds,
+          valueColor: const AlwaysStoppedAnimation(Colors.blueAccent),
+          strokeWidth: 14,
+          backgroundColor: Colors.pinkAccent,
         ),
         Center(child: startTimer()),
       ]
@@ -118,7 +120,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -133,20 +134,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   buildTimer(),
+                  const SizedBox(height: 50),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      /*
-                      TextButton(
-                        style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
-                        onPressed: () { _startTimer(); },
-                        child: const Text('Start'),), */
                       setButtons(),
+                      const SizedBox(width: 50),
                       TextButton(
                         style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
                         onPressed: () { _resetTimer(); },
-                        child: const Text('Reset'),)
+                        child: const Text('Reset', style: TextStyle(fontSize: 20, color: Colors.pink),))
                     ]
                   )
                 ],
