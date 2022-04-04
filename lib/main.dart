@@ -52,27 +52,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 60;
-  int _maxSeconds = 60;
+  final int _maxSeconds = 60;
   late Timer _timer;
 
-  void _countdown() {
+  void _resetTimer() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter--;
+      _timer.cancel();
+      _counter = 60;
     });
   }
 
   void _startTimer() {
     _counter = 60;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       setState(() {
         if (_counter == 0) {
           setState(() {
-            timer.cancel();
+            _counter = 60; // loop to beginning again
           });
         }
         _counter--;
@@ -127,11 +123,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextButton(
                         style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
                         onPressed: () { _startTimer(); },
-                        child: Text('Start'),),
+                        child: const Text('Start'),),
                       TextButton(
                         style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
-                        onPressed: () {  },
-                        child: Text('Stop'),)
+                        onPressed: () { _resetTimer(); },
+                        child: const Text('Reset'),)
                     ]
 
                   )
