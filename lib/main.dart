@@ -53,20 +53,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 60;
   final int _maxSeconds = 60;
-  late Timer? _timer;
+  Timer? timer;
   bool isStartTimer = true;
   bool isRunning = false;
 
   void _resetTimer() {
     setState(() {
-      _timer?.cancel();
+      timer?.cancel();
       _counter = 60;
       isStartTimer = true;
     });
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (_) {
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
       setState(() {
         if (_counter == 0) {
           _counter = 60; // loop to beginning again
@@ -75,26 +75,22 @@ class _MyHomePageState extends State<MyHomePage> {
       });
   });
   }
-
-  Widget setButtons() {
-    return TextButton(
-      style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
-      onPressed: () {_startTimer();},
-      child: const Text('Start'), );
+  void _pauseTimer(){
+    setState(() { timer?.cancel(); });
   }
 
-    /*
-    final isRunning = _timer == null ? false : _timer!.isActive;
+  Widget setButtons() {
+    final isRunning = timer == null ? false : timer!.isActive;
     return isRunning
-        ? TextButton(
-        onPressed: () { _timer?.cancel(); },
-        child: const Text('Pause'))
-        :
-        TextButton(
-          onPressed: () {_startTimer();},
-            child: const Text('Start'), );
-   }*/
-
+      ? TextButton(
+      style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
+      onPressed: () { _pauseTimer(); },
+      child: const Text('Pause'), )
+      : TextButton(
+      style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
+      onPressed: () {_startTimer();},
+      child: const Text('Start'),);
+  }
 
 
   Widget startTimer(){
@@ -157,6 +153,5 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             )) //);
     );
-    throw UnimplementedError();
   }
 }
