@@ -53,28 +53,49 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 60;
   final int _maxSeconds = 60;
-  late Timer _timer;
+  late Timer? _timer;
+  bool isStartTimer = true;
+  bool isRunning = false;
 
   void _resetTimer() {
     setState(() {
-      _timer.cancel();
+      _timer?.cancel();
       _counter = 60;
+      isStartTimer = true;
     });
   }
 
   void _startTimer() {
-    _counter = 60;
-    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (_) {
       setState(() {
         if (_counter == 0) {
-          setState(() {
-            _counter = 60; // loop to beginning again
-          });
-        }
+          _counter = 60; // loop to beginning again
+          }
         _counter--;
       });
-    });
+  });
   }
+
+  Widget setButtons() {
+    return TextButton(
+      style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
+      onPressed: () {_startTimer();},
+      child: const Text('Start'), );
+  }
+
+    /*
+    final isRunning = _timer == null ? false : _timer!.isActive;
+    return isRunning
+        ? TextButton(
+        onPressed: () { _timer?.cancel(); },
+        child: const Text('Pause'))
+        :
+        TextButton(
+          onPressed: () {_startTimer();},
+            child: const Text('Start'), );
+   }*/
+
+
 
   Widget startTimer(){
     return Text(
@@ -120,21 +141,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      /*
                       TextButton(
                         style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
                         onPressed: () { _startTimer(); },
-                        child: const Text('Start'),),
+                        child: const Text('Start'),), */
+                      setButtons(),
                       TextButton(
                         style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.black), ),
                         onPressed: () { _resetTimer(); },
                         child: const Text('Reset'),)
                     ]
-
                   )
-
                 ],
               ),
-
             )) //);
     );
     throw UnimplementedError();
